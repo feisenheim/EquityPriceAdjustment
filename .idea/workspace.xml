@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d1a39c2-66ae-45c4-836e-8c5c884654b3" name="Changes" comment="!@#$">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Price_Adjustments_to_Rights_and_Dividends.py" beforeDir="false" afterPath="$PROJECT_DIR$/Price_Adjustments_to_Rights_and_Dividends.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fhps/check_log.csv" beforeDir="false" afterPath="$PROJECT_DIR$/fhps/check_log.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stocks/hfq/600276.csv" beforeDir="false" afterPath="$PROJECT_DIR$/stocks/hfq/600276.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stocks/origin/600276.csv" beforeDir="false" afterPath="$PROJECT_DIR$/stocks/origin/600276.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stocks/output/与wind数据比较.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/stocks/output/与wind数据比较.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,14 +35,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.Price_Adjustments_to_Rights_and_Dividends.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Price_Adjustments_to_Rights_and_Dividends.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Python.Price_Adjustments_to_Rights_and_Dividends">
     <configuration name="Price_Adjustments_to_Rights_and_Dividends" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="EquityPriceAdjustment" />
@@ -124,7 +126,15 @@
       <option name="project" value="LOCAL" />
       <updated>1704685863733</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="!@#$">
+      <option name="closed" value="true" />
+      <created>1704686651519</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1704686651519</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -142,23 +152,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Price_Adjustments_to_Rights_and_Dividends.py</url>
-          <line>8</line>
-          <option name="timeStamp" value="55" />
+          <line>104</line>
+          <option name="timeStamp" value="81" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Price_Adjustments_to_Rights_and_Dividends.py</url>
-          <line>41</line>
-          <option name="timeStamp" value="63" />
+          <line>107</line>
+          <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Price_Adjustments_to_Rights_and_Dividends.py</url>
-          <line>50</line>
-          <option name="timeStamp" value="64" />
+          <line>108</line>
+          <option name="timeStamp" value="83" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Price_Adjustments_to_Rights_and_Dividends.py</url>
-          <line>56</line>
-          <option name="timeStamp" value="65" />
+          <line>109</line>
+          <option name="timeStamp" value="84" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
