@@ -7,14 +7,19 @@ pd.set_option("mode.chained_assignment", "warn")
 import akshare
 
 
-
 def price_adjustments_to_rights_and_dividends(tickers, path_prices, path_fhps, path_output):
+    # 前复权价格受未来价格走势影响，持续变化保存没有意义。
+    # 生成真实涨跌幅（复权乘数）即可。
+    if os.path.isfile(path_output + "price_adjustments_factors" + ".csv"):
+        f = pd.read_csv(path_output + "price_adjustments_factors" + ".csv", encoding="gbk", index_col=0)
+    else:
+        f = pd.DataFrame
     for ticker in tickers:
         if os.path.isfile(path_prices + ticker + ".csv"):
             prices = pd.read_csv(path_prices + ticker + ".csv", encoding="gbk")
             prices["前收盘价"] = prices["收盘"].shift(1)
-            prices["调整后涨跌幅"] = prices["收盘"].pct_change() * 100
-            prices.at[0, "调整后涨跌幅"] = prices.at[0, "涨跌幅"]
+            prices["实际涨跌幅"] = prices["收盘"].pct_change() * 100
+            prices.at[0, "实际涨跌幅"] = prices.at[0, "涨跌幅"]
             prices.set_index("日期", inplace=True)
             prices.index = pd.to_datetime(prices.index)
 
@@ -35,26 +40,30 @@ def price_adjustments_to_rights_and_dividends(tickers, path_prices, path_fhps, p
                     ex_dividend = 0 if pd.isna(i_record["现金分红-现金分红比例"]) else i_record["现金分红-现金分红比例"]
                     ex_right = 0 if pd.isna(i_record["送转股份-送转总比例"]) else i_record["送转股份-送转总比例"]
                     prices.loc[i_index, '前收盘价'] = (price_p - ex_dividend/10) / (1 + ex_right/10)
-                    prices.loc[i_index, '调整后涨跌幅'] = (prices.loc[i_index, '收盘'] / prices.loc[i_index, '前收盘价'] -1)*100
+                    prices.loc[i_index, '实际涨跌幅'] = (prices.loc[i_index, '收盘'] / prices.loc[i_index, '前收盘价'] -1)*100
             else:
                 pass
-
+        prices["复权因子"] = prices["实际涨跌幅"]/100+1
         prices["日期"] = prices.index
         prices.index = range(len(prices.index))
-        prices["后复权收盘"] = ""
-        prices["前复权收盘"] = ""
 
-        hfq = []
-        qfq = []
-        for i in prices.index:
-            if i == 0:
-                hfq.insert(0, prices.loc[i, '收盘'])
-                qfq.insert(0, prices.loc[prices.index[-1], '收盘'])
-            else:
-                hfq.insert(len(hfq), hfq[-1] * (1 + prices.loc[i, '调整后涨跌幅']/100))
-                qfq.insert(0, qfq[0] / (1 + prices.loc[prices.index[-i], '调整后涨跌幅']/100))
-        prices["后复权收盘"] = hfq
-        prices["前复权收盘"] = qfq
+
+        prices_update = pd.DataFrame(prices[["日期",]])
+
+        # prices["后复权收盘"] = ""
+        # prices["前复权收盘"] = ""
+        #
+        # hfq = []
+        # qfq = []
+        # for i in prices.index:
+        #     if i == 0:
+        #         hfq.insert(0, prices.loc[i, '收盘'])
+        #         qfq.insert(0, prices.loc[prices.index[-1], '收盘'])
+        #     else:
+        #         hfq.insert(len(hfq), hfq[-1] * (1 + prices.loc[i, '调整后涨跌幅']/100))
+        #         qfq.insert(0, qfq[0] / (1 + prices.loc[prices.index[-i], '调整后涨跌幅']/100))
+        # prices["后复权收盘"] = hfq
+        # prices["前复权收盘"] = 前复权收盘
         prices.to_csv(path_output + ticker + ".csv", encoding="gbk")
     return 0
 
@@ -130,14 +139,15 @@ def akshare_fhps_info_update(ticker, path):
         # get fhps records from AKShare
         fhps_new = akshare.stock_fhps_detail_em(symbol=ticker)
     except:
-        log_message = [ticker + " : failed to get data from AKShare website"]
+        log_message = [ticker + " : failed to download fhps records from AKShare website."]
         log.loc[len(log)] = log_message
 
     else:
         if fhps_new.empty:
-            log_message = [ticker + " : data from AKShare website is empty."]
+            log_message = [ticker + " : no fhps records from AKShare website."]
             log.loc[len(log)] = log_message
         else:
+            # 如本地已有历史记录，则比对更新缺失项
             if os.path.isfile(path + ticker + ".csv"):
                 fhps_local = pd.read_csv(path + ticker + ".csv", encoding="gbk", index_col=0)
                 fhps_new.set_index("除权除息日", inplace=True)
@@ -154,13 +164,13 @@ def akshare_fhps_info_update(ticker, path):
                 fhps.index = range(len(fhps.index))
                 fhps.sort_values(by=['除权除息日'], ascending=False)
             else:
-                # If no records have been saved earlier, take all new records.
+                # 如本地无记录，则直接保存下载项.
                 fhps = fhps_new
 
             try:
                 fhps.to_csv(path + ticker + ".csv", encoding="gbk")
             except:
-                log_message = [ticker + " : can not save file to local path"]
+                log_message = [ticker + " : failed to save records to local."]
                 log.loc[len(log)] = log_message
             else:
                 log_message = [ticker + " : updated successfully."]
